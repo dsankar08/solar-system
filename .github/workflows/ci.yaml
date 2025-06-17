@@ -6,7 +6,10 @@ on:
         branches:
           - main
           - 'feature/*'
-
+env:
+    MONGO_URI: mongodb+srv://supercluster.d83jj.mongodb.net/superData
+    MONGO_USERNAME: ${{ vars.MONGO_USERNAME }}
+    MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
 jobs:
     first-job:
         name: unit-testing
@@ -18,7 +21,7 @@ jobs:
             - name: settingup node
               uses: actions/setup-node@v4
               with:
-                node-version: ''
+                node-version: 18
             
             - name: installing dependices
               run: npm ci
