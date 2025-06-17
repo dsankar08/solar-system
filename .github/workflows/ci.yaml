@@ -1,0 +1,27 @@
+name : Implementing CI for this repo
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+          - main
+          - 'feature/*'
+
+jobs:
+    first-job:
+        name: unit-testing
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout repo
+              uses: actions/checkout@v4
+            
+            - name: settingup node
+              uses: actions/setup-node@v4
+              with:
+                node-version: ''
+            
+            - name: installing dependices
+              run: npm ci
+
+            - name: running the unit test
+              run: npm test
