@@ -11,8 +11,37 @@ env:
     MONGO_USERNAME: ${{ vars.MONGO_USERNAME }}
     MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
 jobs:
-    first-job:
+    unit-testing:
         name: unit-testing
+        strategy:
+          matrix:
+            os: [macos-latest,ubuntu-latest]
+            node-version: [18,19] 
+        runs-on: ${{ matrix.os}}
+        steps:
+            - name: checkout repo
+              uses: actions/checkout@v4
+            
+            - name: settingup node
+              uses: actions/setup-node@v4
+              with:
+                node-version: ${{ matrix.node-version }}
+            
+            - name: installing dependices
+              run: npm ci
+
+            - name: running the unit test
+              run: npm test
+
+            - name: uploading the tests
+              uses: actions/upload-artifact@v4
+              with:
+                name: test-file
+                path: test-file
+     
+                
+    code-coverage:
+        name: code-coverage
         runs-on: ubuntu-latest
         steps:
             - name: checkout repo
@@ -26,5 +55,6 @@ jobs:
             - name: installing dependices
               run: npm ci
 
-            - name: running the unit test
-              run: npm test
+            - name: running the code coverage
+              run: npm run coverage
+        
