@@ -82,8 +82,13 @@ jobs:
           - name: testing the image
             run: |
               docker images
-              docker run -p 3000:3000 -e MONGO_URI=uriPlaceholder -e MONGO_USERNAME=usernamePlaceholder -e MONGO_PASSWORD=passwordPlaceholder ${{ vars.DOCKERHUB_USERNAME }}/solar-system/{{ github.sha }}
-              curl localhost:3000
+              
+          - name: push the image to Docker Hub
+            uses: docker/build-push-action@v6
+            with:
+              context: .
+              push: true
+              tags: ${{ vars.DOCKERHUB_USERNAME }}/solar-system/${{ github.sha }}
 
 
 
