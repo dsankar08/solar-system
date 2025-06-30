@@ -60,6 +60,7 @@ jobs:
         
     docker:
        name: Conterinazation
+       needs: [unit-testing,code-coverage]
        runs-on: ubuntu-latest
        steps: 
           - name: checkout repo
@@ -70,4 +71,3 @@ jobs:
             with:
               username: ${{ vars.DOCKERHUB_USERNAME }}
               password: ${{ secrets.DOCKERHUB_PASSWORD }}
-              
